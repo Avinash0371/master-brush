@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+import { Role } from '../types/enums';
 import type { Request, Response } from 'express';
 
 import { prisma } from '../lib/prisma';
@@ -16,7 +16,7 @@ export const register = async (req: Request, res: Response) => {
 
   const rawRole = (req.body as { role?: string }).role;
   const allowedRoles = new Set(Object.values(Role));
-  const role: Role = rawRole && allowedRoles.has(rawRole as Role) ? (rawRole as Role) : Role.support_agent;
+  const role: Role = rawRole && allowedRoles.has(rawRole as Role) ? (rawRole as Role) : Role.SUPPORT_AGENT;
 
   const existing = await prisma.admin.findUnique({ where: { email } });
   if (existing) {

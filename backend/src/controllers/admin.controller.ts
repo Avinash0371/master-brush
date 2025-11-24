@@ -1,4 +1,4 @@
-import { LeadStatus, PainterStatus } from '@prisma/client';
+import { LeadStatus, PainterStatus } from '../types/enums';
 import type { Lead, Painter as PainterModel, Prisma } from '@prisma/client';
 import type { Request, Response } from 'express';
 
@@ -259,12 +259,12 @@ export const getAdminDashboard = async (_req: Request, res: Response) => {
 
   const teamActivity = auditLogs.length
     ? auditLogs.map((log) => ({
-        id: log.id,
-        title: log.action,
-        timestamp: log.createdAt.toISOString(),
-        category: log.entity,
-        description: describeAuditMetadata(log.metadata, `Handled by ${log.admin?.name ?? 'system'}`)
-      }))
+      id: log.id,
+      title: log.action,
+      timestamp: log.createdAt.toISOString(),
+      category: log.entity,
+      description: describeAuditMetadata(log.metadata, `Handled by ${log.admin?.name ?? 'system'}`)
+    }))
     : [];
 
   const alerts: AdminDashboardPayload['alerts'] = [];

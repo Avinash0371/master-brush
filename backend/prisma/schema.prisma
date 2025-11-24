@@ -12,7 +12,7 @@ model Admin {
   name          String
   email         String   @unique
   password_hash String
-  role          Role     @default(support_agent)
+  role          String   @default("support_agent")
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
   leads         Lead[]
@@ -31,7 +31,7 @@ model Lead {
   preferred_date DateTime?
   color_pref     String?
   notes          String?
-  status         LeadStatus @default(new)
+  status         String     @default("new")
   created_at     DateTime   @default(now())
   updated_at     DateTime   @updatedAt
   adminId        String?
@@ -50,46 +50,10 @@ model Painter {
   expected_rate    String?
   portfolio_urls   String?
   doc_urls         String?
-  status           PainterStatus @default(pending)
+  status           String        @default("pending")
   admin_notes      String?
   created_at       DateTime      @default(now())
   updated_at       DateTime      @updatedAt
-}
-
-// Define Enums so they are generated in Prisma Client, even if fields use String (we might need to cast)
-// BUT, if fields use String, we can't import Enum from @prisma/client and expect it to match the field type automatically in strict mode?
-// Actually, if the code imports `LeadStatus` from `@prisma/client`, it expects it to exist.
-// So I MUST add the Enums to the schema.
-// If I don't use them in any model, Prisma might NOT generate them?
-// Prisma only generates Enums if they are used in a model? 
-// Let's check. Yes, usually.
-// So I MUST use them in the models.
-
-// Let's try to use Enums in the models.
-// Since this is a fresh deploy on Render (using a new prod.db), it's fine to change the schema.
-
-enum Role {
-  super_admin
-  admin
-  support_agent
-}
-
-enum LeadStatus {
-  new
-  contacted
-  site_visit_scheduled
-  quotation_sent
-  negotiation
-  won
-  lost
-}
-
-enum PainterStatus {
-  pending
-  verified
-  approved
-  rejected
-  suspended
 }
 
 
