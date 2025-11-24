@@ -257,8 +257,11 @@ export const sendQuoteConfirmation = async (data: {
     const transporter = createTransporter();
     const emailContent = getQuoteConfirmationEmail(data);
 
+    const fromEmail = process.env.EMAIL_FROM || 'sudhimallaavinash00@gmail.com';
+    console.log('Using From address:', fromEmail);
+
     const info = await transporter.sendMail({
-      from: `"Master Brush" <${process.env.EMAIL_USER || env.ADMIN_DEFAULT_EMAIL}>`,
+      from: `"Master Brush" <${fromEmail}>`,
       to: data.email,
       subject: emailContent.subject,
       html: emailContent.html
@@ -272,7 +275,8 @@ export const sendQuoteConfirmation = async (data: {
     console.error('❌ Error sending quote confirmation email:');
     console.error('Error message:', error.message);
     console.error('Error code:', error.code);
-    console.error('Full error:', error);
+    console.error('Error response:', error.response);
+    console.error('Full error:', JSON.stringify(error, null, 2));
     return { success: false, error };
   }
 };
