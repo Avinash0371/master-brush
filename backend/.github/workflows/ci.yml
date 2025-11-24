@@ -1,0 +1,70 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: masterbrush_root
+          MYSQL_DATABASE: masterbrush
+          MYSQL_USER: masterbrush
+          MYSQL_PASSWORD: masterbrush
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h localhost"
+          --health-interval 10s
+          --health-timeout 10s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Generate Prisma client
+        working-directory: backend
+        run: npm run prisma:generate
+
+      - name: Run migrations
+        working-directory: backend
+        env:
+          DATABASE_URL: mysql://masterbrush:masterbrush@127.0.0.1:3306/masterbrush
+        run: npx prisma migrate deploy
+
+      - name: Run lint
+        working-directory: backend
+        run: npm run lint
+
+      - name: Run tests
+        working-directory: backend
+        env:
+          DATABASE_URL: mysql://masterbrush:masterbrush@127.0.0.1:3306/masterbrush
+        run: npm test
+
+      - name: Run e2e tests
+        working-directory: backend
+        env:
+          NODE_ENV: test
+          DATABASE_URL: mysql://masterbrush:masterbrush@127.0.0.1:3306/masterbrush
+        run: npm run test:e2e

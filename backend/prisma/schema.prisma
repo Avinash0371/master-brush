@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  role          String   @default("support_agent")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  leads         Lead[]
+  auditLogs     AuditLog[]
+}
+
+model Lead {
+  id             String     @id @default(cuid())
+  name           String
+  phone          String
+  email          String
+  pincode        String
+  address        String
+  service_type   String
+  area_estimate  String?
+  preferred_date DateTime?
+  color_pref     String?    // Was Json
+  notes          String?
+  status         String     @default("new")
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+  adminId        String?
+  admin          Admin?     @relation(fields: [adminId], references: [id])
+}
+
+model Painter {
+  id               String        @id @default(cuid())
+  full_name        String
+  phone            String
+  email            String
+  city             String
+  years_experience Int
+  skills           String        // Was Json
+  preferred_zones  String?       // Was Json
+  expected_rate    String?
+  portfolio_urls   String?       // Was Json
+  doc_urls         String?       // Was Json
+  status           String        @default("pending")
+  admin_notes      String?
+  created_at       DateTime      @default(now())
+  updated_at       DateTime      @updatedAt
+}
+
+model Palette {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  tags        String?       // Was Json
+  created_at  DateTime @default(now())
+  colors      Color[]
+}
+
+model Color {
+  id             String   @id @default(cuid())
+  name           String
+  slug           String   @unique
+  hex            String
+  rgb            String
+  family         String
+  description    String?
+  themes         String?       // Was Json
+  mood_tags      String?       // Was Json
+  finish         String?
+  popularity     Int      @default(0)
+  sample_images  String?       // Was Json
+  contrast_info  String?       // Was Json
+  created_at     DateTime @default(now())
+  palette_id     String?
+  palette        Palette? @relation(fields: [palette_id], references: [id])
+}
+
+model VisualiserProject {
+  id            String   @id @default(cuid())
+  user_id       String?
+  title         String
+  project_json  String        // Was Json
+  thumbnail_url String?
+  share_token   String   @unique @default(cuid())
+  created_at    DateTime @default(now())
+}
+
+model SiteContent {
+  key        String   @id
+  value      String        // Was Json
+  type       String
+  updated_at DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  adminId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metadata  String?       // Was Json
+  createdAt DateTime @default(now())
+  admin     Admin?   @relation(fields: [adminId], references: [id])
+}

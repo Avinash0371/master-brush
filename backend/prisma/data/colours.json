@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Sunlit Sand",
+    "slug": "sunlit-sand",
+    "hex": "#F0D9B5",
+    "rgb": "rgb(240,217,181)",
+    "family": "Neutral",
+    "description": "Warm beige tone perfect for calm, contemporary spaces.",
+    "themes": ["Calm Neutrals"],
+    "mood_tags": ["warm", "cozy"],
+    "finish": "Matte",
+    "popularity": 86,
+    "sample_images": ["https://images.masterbrush.ai/colours/sunlit-sand-livingroom.webp"],
+    "contrast_info": { "recommended_trim": "#2D2A2B" }
+  },
+  {
+    "name": "Ocean Drive",
+    "slug": "ocean-drive",
+    "hex": "#2A7ABF",
+    "rgb": "rgb(42,122,191)",
+    "family": "Blue",
+    "description": "Punchy azure blue that energises accent walls and creative spaces.",
+    "themes": ["Bold & Bright"],
+    "mood_tags": ["fresh", "invigorating"],
+    "finish": "Satin",
+    "popularity": 92,
+    "sample_images": ["https://images.masterbrush.ai/colours/ocean-drive-bedroom.webp"],
+    "contrast_info": { "recommended_trim": "#F7F7F7" }
+  }
+]
