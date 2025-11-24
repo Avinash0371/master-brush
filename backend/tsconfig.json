@@ -6,11 +6,22 @@
       "ES2021"
     ],
     "outDir": "dist",
-    "exclude": [
-      "node_modules",
-      "dist",
-      "prisma",
-      "tests",
-      "jest.setup.ts"
-    ]
-  }
+    "rootDir": "src",
+    "strict": true,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "prisma",
+    "tests",
+    "jest.setup.ts"
+  ]
+}
