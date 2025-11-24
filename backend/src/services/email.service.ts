@@ -3,6 +3,12 @@ import { env } from '../config/env';
 
 // Create reusable transporter
 const createTransporter = () => {
+  console.log('🔧 Creating email transporter with config:');
+  console.log('  Host:', 'smtp.gmail.com');
+  console.log('  Port:', 587);
+  console.log('  User:', process.env.EMAIL_USER || env.ADMIN_DEFAULT_EMAIL);
+  console.log('  Password length:', (process.env.EMAIL_PASSWORD || '').length);
+
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
