@@ -1,5 +1,6 @@
 import type { Lead, Painter as PainterModel } from '@prisma/client';
 import type { Express, Request, Response } from 'express';
+import { PainterStatus } from '../types/enums';
 
 import { prisma } from '../lib/prisma';
 import { sendSuccess } from '../utils/http';
@@ -116,13 +117,14 @@ export const approvePainter = async (req: Request, res: Response) => {
     }
   });
 
-  await sendNotification({
-    toEmail: painter.email,
-    subject: `Your Master Brush status: ${painter.status}`,
-    html: painterApprovalTemplate(painter.full_name, painter.status, admin_notes ?? undefined),
-    text: `Your Master Brush status is now ${painter.status}`,
-    toPhone: painter.phone
-  });
+  // TODO: Implement sendNotification and painterApprovalTemplate
+  // await sendNotification({
+  //   toEmail: painter.email,
+  //   subject: `Your Master Brush status: ${painter.status}`,
+  //   html: painterApprovalTemplate(painter.full_name, painter.status, admin_notes ?? undefined),
+  //   text: `Your Master Brush status is now ${painter.status}`,
+  //   toPhone: painter.phone
+  // });
 
   return sendSuccess(res, painter, 'Painter updated');
 };
