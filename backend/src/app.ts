@@ -5,14 +5,14 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
+// import swaggerUi from 'swagger-ui-express';
+// import YAML from 'yamljs';
 
 import { env } from './config/env';
 import { errorHandler } from './middlewares/errorHandler';
 import { apiRouter } from './routes';
 
-const openApiDocument = YAML.load(`${__dirname}/../openapi.yaml`);
+// const openApiDocument = YAML.load(`${__dirname}/../openapi.yaml`);
 
 export const createApp = () => {
   const app = express();
@@ -39,7 +39,7 @@ export const createApp = () => {
   app.use('/api', limiter);
 
   app.use('/uploads', express.static(env.UPLOAD_PATH));
-  app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
+  // app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApiDocument));
 
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok' });
