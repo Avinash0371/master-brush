@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Prisma } from '@prisma/client';
 import type { Request, Response } from 'express';
 

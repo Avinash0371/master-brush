@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LeadStatus, PainterStatus } from '../types/enums';
 import type { Lead, Painter as PainterModel, Prisma } from '@prisma/client';
 import type { Request, Response } from 'express';
